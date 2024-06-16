@@ -1,0 +1,90 @@
+# apiVersion: skaffold/v2alpha3
+# kind: Config
+# deploy:
+#   kubectl:
+#     manifests:
+#     - ./infra/k8s/*
+# build:
+#   # local:
+#   #   push: false
+#   googleCloudBuild:
+#     projectId: ticketing-dev-423717
+#   artifacts:
+#   - image: us.gcr.io/ticketing-dev-423717/auth
+#     context: auth
+#     docker:
+#       dockerfile: Dockerfile
+#     sync:
+#       manual:
+#       - src: 'src/**/*.ts'
+#         dest: .
+#    - image: us.gcr.io/ticketing-dev-423717/client
+#      context: client
+#      docker:
+#       dockerfile: Dockerfile
+#      sync:
+#        manual:
+#         - src: '**/*.js'
+#           dest: .
+
+
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+    - ./infra/k8s/*
+build:
+  local:
+    push: false
+  # googleCloudBuild:
+  #   projectId: ticketing-dev-423717
+  artifacts:
+  - image: rohailkhan134/auth
+    context: auth
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+  - image: rohailkhan134/client
+    context: client
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: 'src/**/*.ts'
+        dest: .
+  - image: rohailkhan134/tickets
+    context: tickets
+    docker:
+      dockerfile: Dockerfile
+    sync: 
+      manual: 
+      - src: "src/**/*.ts"
+        dest: . 
+  - image: rohailkhan134/orders
+    context: orders
+    docker:
+      dockerfile: Dockerfile
+    sync: 
+      manual: 
+      - src: "src/**/*.ts"
+        dest: .
+  - image: rohailkhan134/expiration
+    context: expiration
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+        - dest: .
+          src: "src/**/*.ts"
+  - image: rohailkhan134/payments
+    context: payments
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+        - dest: .
+          src: "src/**/*.ts"
